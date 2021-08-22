@@ -1,0 +1,146 @@
+# Default values for roundcube.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+image:
+  repository: docker.io/roundcube/roundcubemail
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+config:
+  # ROUNDCUBEMAIL_DEFAULT_HOST
+  # Hostname of the IMAP server to connect to. For encrypted connections, prefix
+  # the host with tls:// (STARTTLS) or ssl:// (SSL/TLS).
+  # ROUNDCUBEMAIL_DEFAULT_HOST: ""
+
+  # ROUNDCUBEMAIL_DEFAULT_PORT
+  # IMAP port number; defaults to 143
+  # ROUNDCUBEMAIL_DEFAULT_PORT: ""
+
+  # ROUNDCUBEMAIL_SMTP_USER
+  # SMTP username (if the outgoing email server requires authentication). Use "%u" to let Roundcube use the IMAP login user name.
+  # ROUNDCUBEMAIL_SMTP_USER: "%u"
+
+  # ROUNDCUBEMAIL_SMTP_PASS
+  # SMTP password (if required). Use "%p" for the current IMAP login password.
+  # ROUNDCUBEMAIL_SMTP_PASS: "%p"
+
+  # ROUNDCUBEMAIL_DES_KEY
+  # This key is used to encrypt the users IMAP password which is temporarily stored in the session database. For security reasons it's important that your Roundcube installation has its very own encryption key and that you *don't use the default value! *
+  # ROUNDCUBEMAIL_DES_KEY: ""
+
+  # ROUNDCUBEMAIL_LANGUAGE
+  # This key is used to select preffered default language.
+  # ROUNDCUBEMAIL_LANGUAGE: "de_DE"
+
+  # ROUNDCUBEMAIL_SMTP_SERVER
+  # Hostname of the SMTP server to send mails. For encrypted connections, prefix
+  # the host with tls:// (STARTTLS) or ssl:// (SSL/TLS).
+  # ROUNDCUBEMAIL_SMTP_SERVER: ""
+
+  # ROUNDCUBEMAIL_SMTP_PORT
+  # SMTP port number; defaults to 587
+  # ROUNDCUBEMAIL_SMTP_PORT: ""
+
+  # ROUNDCUBEMAIL_PLUGINS
+  # List of built-in plugins to activate. Defaults to archive,zipdownload
+  # ROUNDCUBEMAIL_PLUGINS: ""
+
+  # ROUNDCUBEMAIL_SKIN
+  # Configures the default theme. Defaults to larry
+  # ROUNDCUBEMAIL_SKIN: ""
+
+  # ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE
+  # File upload size limit; defaults to 5M
+  # ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE: ""
+
+  # ROUNDCUBEMAIL_DB_TYPE
+  # Database provider; currently supported: mysql, pgsql, sqlite
+  # ROUNDCUBEMAIL_DB_TYPE: ""
+
+  # ROUNDCUBEMAIL_DB_HOST
+  # Host (or Docker instance) name of the database service; defaults to mysql or
+  # postgres depending on linked containers.
+  # ROUNDCUBEMAIL_DB_HOST: ""
+
+  # ROUNDCUBEMAIL_DB_PORT
+  # Port number of the database service; defaults to 3306 or 5432 depending on
+  # linked containers.
+  # ROUNDCUBEMAIL_DB_PORT: ""
+
+  # ROUNDCUBEMAIL_DB_USER
+  # The database username for Roundcube; defaults to root on mysql
+  # ROUNDCUBEMAIL_DB_USER: ""
+
+  # ROUNDCUBEMAIL_DB_PASSWORD
+  # The password for the database connection
+  # ROUNDCUBEMAIL_DB_PASSWORD: ""
+
+  # ROUNDCUBEMAIL_DB_NAME
+  # The database name for Roundcube to use; defaults to roundcubemail
+  # ROUNDCUBEMAIL_DB_NAME: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # cert-manager.io/issuer: "" 
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+  - host: chart-example.local
+    paths:
+      - path: /
+        pathType: ImplementationSpecific
+  tls: []
+  # - secretName: roundcube-tls
+  #   hosts:
+  #     - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

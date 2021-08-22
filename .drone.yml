@@ -1,0 +1,101 @@
+---
+kind: pipeline
+type: kubernetes
+name: linter
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: helm lint
+  commands:
+  - helm lint
+  image: quay.io/helmpack/chart-testing:latest
+  resources:
+    limits:
+      cpu: 50
+      memory: 50M
+
+- name: markdown lint
+  commands:
+  - markdownlint *.md
+  image: docker.io/tmknom/markdownlint:0.23.1
+  resources:
+    limits:
+      cpu: 50
+      memory: 50M
+
+- name: email-notification
+  environment:
+    PLUGIN_HOST:
+      from_secret: smtp_host
+    PLUGIN_USERNAME:
+      from_secret: smtp_username
+    PLUGIN_PASSWORD:
+      from_secret: smtp_password
+    PLUGIN_FROM:
+      from_secret: smtp_mail_address
+  image: docker.io/drillster/drone-email:latest
+  resources:
+    limits:
+      cpu: 50
+      memory: 25M
+  when:
+    status:
+    - changed
+    - failure
+
+trigger:
+  event:
+    exclude:
+    - tag
+
+---
+kind: pipeline
+type: kubernetes
+name: sync
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: github
+  image: docker.io/appleboy/drone-git-push:latest
+  resources:
+    limits:
+      cpu: 50
+      memory: 25M
+  settings:
+    branch: master
+    remote: ssh://git@github.com/volker-raschek/roundcube-charts.git
+    force: true
+    ssh_key:
+      from_secret: ssh_key
+
+- name: email-notification
+  environment:
+    PLUGIN_HOST:
+      from_secret: smtp_host
+    PLUGIN_USERNAME:
+      from_secret: smtp_username
+    PLUGIN_PASSWORD:
+      from_secret: smtp_password
+    PLUGIN_FROM:
+      from_secret: smtp_mail_address
+  image: docker.io/drillster/drone-email:latest
+  resources:
+    limits:
+      cpu: 50
+      memory: 25M
+  when:
+    status:
+    - changed
+    - failure
+
+trigger:
+  event:
+  - push
+  repo:
+  - volker.raschek/roundcube-charts
