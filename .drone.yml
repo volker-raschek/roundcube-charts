@@ -20,7 +20,7 @@ steps:
 - name: markdown lint
   commands:
   - markdownlint *.md
-  image: docker.io/tmknom/markdownlint:0.23.1
+  image: docker.io/volkerraschek/markdownlint:0.28.1
   resources:
     limits:
       cpu: 50
