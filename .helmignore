@@ -21,3 +21,10 @@
 .idea/
 *.tmproj
 .vscode/
+# drone
+.drone.yml
+# markdownlint
+.markdownlint.yaml
+# customized values
+values2.yml
+values2.yaml
