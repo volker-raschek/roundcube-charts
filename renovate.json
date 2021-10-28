@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "automergeStrategy": "merge-commit",
+  "automergeType": "pr",
+  "assignees": [ "volker.raschek" ],
+  "regexManagers": [
+    {
+      "description": "Update container image reference",
+      "fileMatch": [
+        "^Chart\\.yaml$"
+      ],
+      "matchStrings": [
+        "appVersion: \"(?<currentValue>.*?)\"\\s+"
+      ],
+      "depNameTemplate": "docker.io/roundcube/roundcubemail",
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
