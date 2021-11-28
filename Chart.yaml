@@ -3,7 +3,7 @@ name: roundcube
 description: Helm chart for roundcube
 type: application
 version: "0.1.0"
-appVersion: "1.4.11-apache"
+appVersion: "1.5.1-apache"
 icon: https://upload.wikimedia.org/wikipedia/commons/e/e3/Roundcube_logo_icon.svg
 
 keywords:
