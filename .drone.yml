@@ -52,6 +52,35 @@ trigger:
     - tag
 
 ---
+
+kind: pipeline
+type: kubernetes
+name: release
+
+platform:
+  os: linux
+
+steps:
+- name: release-helm-chart
+  commands:
+  - helm plugin install https://github.com/chartmuseum/helm-push.git
+  - helm repo add volker.raschek https://charts.cryptic.systems/volker.raschek
+  - helm package --version ${DRONE_TAG} .
+  - helm cm-push ${DRONE_REPO_NAME%-charts}-${DRONE_TAG}.tgz volker.raschek
+  environment:
+    HELM_REPO_PASSWORD:
+      from_secret: helm_repo_password
+    HELM_REPO_USERNAME:
+      from_secret: helm_repo_username
+  image: docker.io/alpine/helm:3.7.2
+
+trigger:
+  event:
+  - tag
+  repo:
+  - volker.raschek/roundcube-charts
+
+---
 kind: pipeline
 type: kubernetes
 name: sync
