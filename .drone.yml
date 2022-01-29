@@ -11,7 +11,7 @@ steps:
 - name: helm lint
   commands:
   - helm lint
-  image: quay.io/helmpack/chart-testing:latest
+  image: docker.io/volkerraschek/helm:3.7.0
   resources:
     limits:
       cpu: 50
@@ -72,7 +72,7 @@ steps:
       from_secret: helm_repo_password
     HELM_REPO_USERNAME:
       from_secret: helm_repo_username
-  image: docker.io/alpine/helm:3.8.0
+  image: docker.io/volkerraschek/helm:3.7.0
 
 trigger:
   event:
