@@ -3,6 +3,24 @@
   "automergeStrategy": "merge-commit",
   "automergeType": "pr",
   "assignees": [ "volker.raschek" ],
+  "labels": [ "renovate" ],
+  "packageRules": [
+    {
+      "addLabels": [ "renovate/roundcube", "renovate/automerge" ],
+      "automerge": true,
+      "matchManagers": "droneci",
+      "matchUpdateTypes": [ "minor", "patch"]
+    },
+    {
+      "addLabels": [ "renovate/roundcubemail", "renovate/automerge" ],
+      "automerge": false,
+      "matchPackageNames": [ "roundcubemail" ],
+      "matchManagers": [ "regex" ],
+      "matchUpdateTypes": [ "minor", "patch"]
+    }
+  ],
+  "rebaseLabel": "renovate/rebase",
+  "rebaseWhen": "behind-base-branch",
   "regexManagers": [
     {
       "description": "Update container image reference",
@@ -12,8 +30,9 @@
       "matchStrings": [
         "appVersion: \"(?<currentValue>.*?)\"\\s+"
       ],
-      "depNameTemplate": "docker.io/roundcube/roundcubemail",
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "roundcubemail",
+      "lookupNameTemplate": "docker.io/roundcube/roundcubemail"
     }
   ]
 }
