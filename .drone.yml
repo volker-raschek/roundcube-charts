@@ -63,10 +63,9 @@ platform:
 steps:
 - name: release-helm-chart
   commands:
-  - helm plugin install https://github.com/chartmuseum/helm-push.git
   - helm repo add volker.raschek https://charts.cryptic.systems/volker.raschek
   - helm package --version ${DRONE_TAG} .
-  - helm cm-push ${DRONE_REPO_NAME%-charts}-${DRONE_TAG}.tgz volker.raschek
+  - /usr/bin/helm-cm-push ${DRONE_REPO_NAME%-charts}-${DRONE_TAG}.tgz volker.raschek
   environment:
     HELM_REPO_PASSWORD:
       from_secret: helm_repo_password
