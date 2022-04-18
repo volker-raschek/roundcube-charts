@@ -22,6 +22,8 @@ serviceAccount:
 
 podAnnotations: {}
 
+podPriorityClassName: ""
+
 podSecurityContext: {}
   # fsGroup: 2000
 
