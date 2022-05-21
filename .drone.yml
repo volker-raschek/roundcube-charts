@@ -14,8 +14,8 @@ steps:
   image: docker.io/volkerraschek/helm:3.8.2
   resources:
     limits:
-      cpu: 50
-      memory: 50M
+      cpu: 150
+      memory: 150M
 
 - name: markdown lint
   commands:
@@ -23,8 +23,8 @@ steps:
   image: docker.io/volkerraschek/markdownlint:0.31.1
   resources:
     limits:
-      cpu: 50
-      memory: 50M
+      cpu: 150
+      memory: 150M
 
 - name: email-notification
   environment:
@@ -39,8 +39,8 @@ steps:
   image: docker.io/drillster/drone-email:latest
   resources:
     limits:
-      cpu: 50
-      memory: 25M
+      cpu: 150
+      memory: 150M
   when:
     status:
     - changed
@@ -52,7 +52,6 @@ trigger:
     - tag
 
 ---
-
 kind: pipeline
 type: kubernetes
 name: release
@@ -72,6 +71,10 @@ steps:
     HELM_REPO_USERNAME:
       from_secret: helm_repo_username
   image: docker.io/volkerraschek/helm:3.8.2
+  resources:
+    limits:
+      cpu: 150
+      memory: 150M
 
 trigger:
   event:
