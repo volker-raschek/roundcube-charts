@@ -26,6 +26,15 @@ steps:
       cpu: 150
       memory: 150M
 
+- name: helm template
+  commands:
+  - helm template .
+  image: docker.io/volkerraschek/helm:3.9.0
+  resources:
+    limits:
+      cpu: 150
+      memory: 150M
+
 - name: email-notification
   environment:
     PLUGIN_HOST:
